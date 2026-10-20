@@ -152,10 +152,10 @@ section[id],footer[id]{scroll-margin-top:92px}
 .pc:hover .pc-media{border-radius:999px 999px 28px 28px;transform:translateY(-4px)}
 .pc-media>img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
 .pc:hover .pc-media>img{transform:scale(1.14)}
-.pc-price{position:absolute;left:12px;top:12px;padding:.35rem .85rem;border-radius:999px;background:var(--paper);border:2px solid var(--ink);font-family:var(--f-display);font-weight:700;font-size:.95rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pc-price{position:absolute;left:12px;bottom:12px;z-index:2;box-shadow:0 3px 0 var(--ink);padding:.35rem .85rem;border-radius:999px;background:var(--paper);border:2px solid var(--ink);font-family:var(--f-display);font-weight:700;font-size:.95rem;font-variant-numeric:tabular-nums;white-space:nowrap}
 .pc-price small{font-family:var(--f-body);font-weight:500;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;margin-left:.35rem;color:var(--muted)}
-.pc-badge{position:absolute;left:12px;bottom:12px;padding:.25rem .7rem;border-radius:999px;background:var(--butter);border:2px solid var(--ink);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
-.pc-act{position:absolute;right:12px;bottom:12px}
+.pc-badge{display:inline-block;margin-bottom:8px;padding:.2rem .65rem;border-radius:999px;background:var(--butter);border:2px solid var(--ink);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+.pc-act{position:absolute;right:12px;bottom:12px;z-index:2}
 .fab{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--coral);color:var(--ink);border:2px solid var(--ink);font-size:1.7rem;line-height:1;font-weight:500;transition:transform .45s cubic-bezier(.3,1.5,.5,1),background .25s}
 .fab:hover{transform:rotate(90deg) scale(1.1);background:var(--butter)}
 .stepper{display:inline-flex;align-items:center;background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:2px}
@@ -164,8 +164,9 @@ section[id],footer[id]{scroll-margin-top:92px}
 .stepper span{min-width:28px;text-align:center;font-variant-numeric:tabular-nums;font-weight:700}
 .pc-body h3{font-family:var(--f-display);font-weight:700;letter-spacing:-.025em;font-size:1.25rem;line-height:1.1}
 .pc-body p{font-size:.92rem;color:var(--muted);line-height:1.5;margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.rail{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 4px 22px;scrollbar-width:thin}
-.rail .pc{flex:0 0 min(74vw,290px);scroll-snap-align:start}
+.rail{display:flex;gap:22px;overflow-x:auto;padding:4px 4px 22px;scrollbar-width:none;-ms-overflow-style:none}
+.rail::-webkit-scrollbar{display:none;height:0}
+.rail .pc{flex:0 0 min(74vw,290px)}
 .rail-ctl{display:flex;gap:10px}
 
 .filters{position:sticky;z-index:30;top:calc(84px + env(safe-area-inset-top,0px));margin-inline:auto;width:min(100% - 24px,1240px);padding:10px 12px;border:2px solid var(--ink);border-radius:999px;background:rgba(255,253,249,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
@@ -197,10 +198,10 @@ section[id],footer[id]{scroll-margin-top:92px}
 .panel h3{font-family:var(--f-display);font-weight:700;font-size:1.3rem;letter-spacing:-.02em}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
 .opts .chip{border-color:var(--ink)}
-.charm-btns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.charm-btn{display:grid;gap:4px;justify-items:center;padding:12px 4px 10px;border-radius:50%/60%;border:2px solid var(--ink);font-size:.74rem;font-weight:600;background:var(--cream);transition:transform .3s cubic-bezier(.3,1.4,.5,1),background .25s}
+.charm-btns{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.charm-btn{display:grid;gap:4px;justify-items:center;padding:8px 2px;align-content:start;border-radius:18px;border:2px solid var(--ink);font-size:.74rem;font-weight:600;background:var(--cream);transition:transform .3s cubic-bezier(.3,1.4,.5,1),background .25s}
 .charm-btn:hover{transform:translateY(-4px) rotate(-3deg);background:var(--butter)}
-.charm-btn svg{width:34px;height:34px}
+.charm-btn img{width:42px;height:42px;object-fit:contain}.charm-btn span{font-size:.62rem;line-height:1.15;text-align:center;letter-spacing:.02em}
 
 /* order */
 .steps{position:relative;display:grid;gap:22px}
@@ -784,7 +785,7 @@ $('#tray-copy').addEventListener('click',async()=>{if(!count())return toast('Add
 /* ---------- product cards ---------- */
 function card(p,i,badge){
   const b=badge||(p.unit==='set'?'Set':'');
-  return `<article class="pc" style="--i:${i}"><div class="pc-media"><img src="img/${p.id}.webp" alt="${p.name}" loading="lazy" decoding="async"><span class="pc-price">${fmt(p.price)}${p.unit?`<small>${p.unit}</small>`:''}</span>${b?`<span class="pc-badge">${b}</span>`:''}<div class="pc-act" data-act="${p.id}"></div></div><div class="pc-body"><h3>${p.name}</h3><p>${p.desc}</p></div></article>`;
+  return `<article class="pc" style="--i:${i}"><div class="pc-media"><img src="img/${p.id}.webp" alt="${p.name}" loading="lazy" decoding="async"><span class="pc-price">${fmt(p.price)}${p.unit?`<small>${p.unit}</small>`:''}</span><div class="pc-act" data-act="${p.id}"></div></div><div class="pc-body">${b?`<span class="pc-badge">${b}</span>`:''}<h3>${p.name}</h3><p>${p.desc}</p></div></article>`;
 }
 /* collections accordion */
 (function(){
@@ -804,6 +805,20 @@ $('#rail').innerHTML=BEST_SELLERS.map((id,i)=>card(byId[id],i,'Featured')).join(
 const rail=$('#rail');
 $('#rail-prev').addEventListener('click',()=>rail.scrollBy({left:-320,behavior:'smooth'}));
 $('#rail-next').addEventListener('click',()=>rail.scrollBy({left:320,behavior:'smooth'}));
+/* auto-advance every 3 seconds */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  let timer=null,paused=false,visible=false;
+  const step=()=>{const c=rail.querySelector('.pc');if(!c)return;const w=c.getBoundingClientRect().width+22;
+    if(rail.scrollLeft+rail.clientWidth>=rail.scrollWidth-8)rail.scrollTo({left:0,behavior:'smooth'});else rail.scrollBy({left:w,behavior:'smooth'})};
+  const sync=()=>{clearInterval(timer);timer=null;if(visible&&!paused&&!document.hidden)timer=setInterval(step,3000)};
+  rail.addEventListener('mouseenter',()=>{paused=true;sync()});rail.addEventListener('mouseleave',()=>{paused=false;sync()});
+  rail.addEventListener('focusin',()=>{paused=true;sync()});rail.addEventListener('focusout',()=>{paused=false;sync()});
+  let tt;rail.addEventListener('touchstart',()=>{paused=true;clearTimeout(tt);sync()},{passive:true});
+  rail.addEventListener('touchend',()=>{clearTimeout(tt);tt=setTimeout(()=>{paused=false;sync()},4000)},{passive:true});
+  document.addEventListener('visibilitychange',sync);
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;sync()},{threshold:.25}).observe(rail);
+})();
 /* collection */
 let filter='all',sortBy='featured';
 const chipDefs=[{key:'all',label:'All'},...CATS.map(c=>({key:c.key,label:c.label}))];
@@ -823,16 +838,27 @@ $('#sort').addEventListener('change',e=>{sortBy=e.target.value;renderGrid()});
 renderChips();renderGrid();
 
 /* ---------- charm bar ---------- */
-const star=(()=>{let d='';for(let i=0;i<10;i++){const r=i%2?4.6:11,a=-Math.PI/2+i*Math.PI/5;d+=(i?'L':'M')+r2(r*Math.cos(a))+' '+r2(r*Math.sin(a))}return d+'Z'})();
 const CH={
- pearl:{label:'Pearl',svg:()=>bead(0,0,8.4,'pearl')},
- heart:{label:'Heart',svg:()=>`<path d="${HEART}" transform="translate(0 -.6) scale(10.5)" fill="url(#g-heart)" stroke="#8a2236" stroke-width=".07"/>`},
- starfish:{label:'Starfish',svg:()=>`<path d="${star}" fill="url(#g-turq)" stroke="#0b8794" stroke-width=".6" stroke-linejoin="round"/>`},
- shell:{label:'Shell',svg:()=>`<path d="M0 9L-10 -2Q0 -14 10 -2Z" fill="url(#g-shell)" stroke="#B98F4A" stroke-width=".8" stroke-linejoin="round"/><path d="M0 9L-5 -6M0 9V-8M0 9L5 -6" stroke="#B98F4A" stroke-width=".7" fill="none"/>`},
- butterfly:{label:'Butterfly',svg:()=>`<path d="M0 0C-4-9-12-9-11-2C-10 3-4 3 0 0ZM0 0C4-9 12-9 11-2C10 3 4 3 0 0Z" fill="#9b7bd1" stroke="#5d3f93" stroke-width=".6"/><path d="M0 0C-3 9-9 10-8 5C-7 1-3 1 0 0ZM0 0C3 9 9 10 8 5C7 1 3 1 0 0Z" fill="#c4a9ea" stroke="#5d3f93" stroke-width=".6"/><path d="M0-5V6" stroke="#3b2a63" stroke-width="1.2" stroke-linecap="round"/>`},
- clover:{label:'Clover',svg:()=>[[-4.2,-4.2],[4.2,-4.2],[-4.2,4.2],[4.2,4.2]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4.6" fill="#8fc4a0" stroke="#4d8a63" stroke-width=".6"/>`).join('')+`<path d="M0 0L5 11" stroke="#4d8a63" stroke-width="1.2" stroke-linecap="round"/>`},
- flower:{label:'Flower',svg:()=>[0,1,2,3,4].map(i=>{const a=i/5*TAU-Math.PI/2;return `<circle cx="${r2(5.4*Math.cos(a))}" cy="${r2(5.4*Math.sin(a))}" r="4.4" fill="url(#g-rose)" stroke="rgba(160,90,96,.5)" stroke-width=".5"/>`}).join('')+bead(0,0,3.2,'gold')},
- planet:{label:'Planet',svg:()=>`<circle r="6.6" fill="#d9534f" stroke="#8f2a27" stroke-width=".6"/><ellipse rx="12" ry="3.6" transform="rotate(-20)" fill="none" stroke="#C9A55C" stroke-width="1.6"/>`}
+ 'starfish':{label:'Pearly Starfish',img:'img/charm-01.webp',w:240,h:201},
+ 'skeleton-hand':{label:'Skeleton Hand',img:'img/charm-02.webp',w:240,h:336},
+ 'pixel-heart':{label:'Pixel Heart',img:'img/charm-03.webp',w:213,h:201},
+ 'panda':{label:'Panda',img:'img/charm-04.webp',w:150,h:177},
+ 'gold-heart':{label:'Gold Heart',img:'img/charm-05.webp',w:240,h:240},
+ 'seahorse':{label:'Seahorse',img:'img/charm-06.webp',w:168,h:315},
+ 'donut':{label:'Donut',img:'img/charm-07.webp',w:174,h:168},
+ 'pearl-shell':{label:'Pearl Shell',img:'img/charm-08.webp',w:180,h:183},
+ 'coin':{label:'Hands Coin',img:'img/charm-09.webp',w:201,h:204},
+ 'sword-heart':{label:'Sword Heart',img:'img/charm-10.webp',w:207,h:540},
+ 'mermaid-moon':{label:'Mermaid Moon',img:'img/charm-11.webp',w:270,h:288},
+ 'skull':{label:'Skull',img:'img/charm-12.webp',w:141,h:171},
+ 'daisy':{label:'Daisy',img:'img/charm-13.webp',w:153,h:171},
+ 'gold-butterfly':{label:'Gold Butterfly',img:'img/charm-14.webp',w:192,h:177},
+ 'clover':{label:'Silver Clover',img:'img/charm-15.webp',w:159,h:195},
+ 'purple-butterfly':{label:'Purple Butterfly',img:'img/charm-16.webp',w:162,h:132},
+ 'planet':{label:'Red Planet',img:'img/charm-17.webp',w:216,h:171},
+ 'little-fish':{label:'Little Fish',img:'img/charm-18.webp',w:159,h:150},
+ 'scallop':{label:'Scallop',img:'img/charm-19.webp',w:129,h:111},
+ 'teal-shell':{label:'Teal Shell',img:'img/charm-20.webp',w:222,h:210}
 };
 const BASES={gold:'Gold chain',silver:'Silver chain',pearl:'Pearl strand',turq:'Turquoise beads'};
 const MAXC=7;let cBase='gold',cList=[],justAdded=-1;
@@ -847,7 +873,7 @@ function renderCharm(){
   for(let i=0;i<MAXC;i++){
     const [x,y]=qpt((i+1)/(MAXC+1)),k=cList[i];
     if(!k){s+=`<circle class="slot" cx="${r2(x)}" cy="${r2(y+10)}" r="9"/>`;continue}
-    s+=`<g transform="translate(${r2(x)} ${r2(y)})" class="charm${i===justAdded?' new':''}" data-i="${i}" role="button" tabindex="0" aria-label="Remove ${CH[k].label} charm"><g class="swing" style="--sd:${(3+i*.35).toFixed(2)}s;--sl:${-i*.4}s"><g class="pop"><circle cx="0" cy="4" r="4.6" fill="none" stroke="#C9A55C" stroke-width="1.8"/><path d="M0 8.6V13" stroke="#C9A55C" stroke-width="1.6"/><g transform="translate(0 36) scale(2.2)">${CH[k].svg()}</g></g></g></g>`;
+    s+=`<g transform="translate(${r2(x)} ${r2(y)})" class="charm${i===justAdded?' new':''}" data-i="${i}" role="button" tabindex="0" aria-label="Remove ${CH[k].label} charm"><g class="swing" style="--sd:${(3+i*.35).toFixed(2)}s;--sl:${-i*.4}s"><g class="pop"><circle cx="0" cy="4" r="4.6" fill="none" stroke="#C9A55C" stroke-width="1.8"/><path d="M0 8.6V13" stroke="#C9A55C" stroke-width="1.6"/><image href="${CH[k].img}" x="${r2(-CH[k].w/Math.max(CH[k].w,CH[k].h)*27)}" y="${r2(13+ (1-CH[k].h/Math.max(CH[k].w,CH[k].h))*0)}" width="${r2(CH[k].w/Math.max(CH[k].w,CH[k].h)*54)}" height="${r2(CH[k].h/Math.max(CH[k].w,CH[k].h)*54)}"/></g></g></g>`;
   }
   $('#charm-svg').innerHTML=s;justAdded=-1;
   $('#charm-count').textContent=cList.length?`${cList.length} of ${MAXC} · ${fmt(cList.length*CHARM_PRICE)}`:`0 of ${MAXC}`;
@@ -858,7 +884,7 @@ const charmMsg=()=>`Hi ${CONFIG.brand}! I'd like a custom charm bracelet.\nBase:
 const syncCharmSend=bindWa($('#charm-send'),charmMsg,()=>{if(!cList.length){toast('Add at least one charm first');return false}return true});
 $('#bases').innerHTML=Object.entries(BASES).map(([k,l])=>`<button type="button" class="chip" data-base="${k}" aria-pressed="${k===cBase}">${l}</button>`).join('');
 $('#bases').addEventListener('click',e=>{const b=e.target.closest('[data-base]');if(!b)return;cBase=b.dataset.base;$$('#bases .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.base===cBase));renderCharm()});
-$('#charm-btns').innerHTML=Object.entries(CH).map(([k,c])=>`<button type="button" class="charm-btn" data-charm="${k}" aria-label="Add ${c.label}"><svg viewBox="-13 -13 26 26" aria-hidden="true">${c.svg()}</svg>${c.label}</button>`).join('');
+$('#charm-btns').innerHTML=Object.entries(CH).map(([k,c])=>`<button type="button" class="charm-btn" data-charm="${k}" aria-label="Add ${c.label}"><img src="${c.img}" alt="" loading="lazy"><span>${c.label}</span></button>`).join('');
 $('#charm-btns').addEventListener('click',e=>{const b=e.target.closest('[data-charm]');if(!b)return;if(cList.length>=MAXC)return toast('Bracelet is full. Tap a charm to remove one.');cList.push(b.dataset.charm);justAdded=cList.length-1;renderCharm()});
 $('#charm-svg').addEventListener('click',e=>{const c=e.target.closest('.charm');if(!c)return;cList.splice(+c.dataset.i,1);renderCharm()});
 $('#charm-svg').addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const c=e.target.closest('.charm');if(!c)return;e.preventDefault();cList.splice(+c.dataset.i,1);renderCharm()});
